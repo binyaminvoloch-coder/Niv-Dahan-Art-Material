@@ -10,7 +10,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Niv Dahan | אמן טדלקט מרוקאי בינלאומי | Art & Material">
     <meta property="og:description" content="יוצר, וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד.">
-    <meta property="og:image" content="https://niv-dahan-art.vercel.app/01.webp"> <!-- Placeholder for your actual image URL -->
+    <meta property="og:image" content="01.webp"> <!-- Placeholder for your actual image URL -->
     <meta property="og:locale" content="he_IL">
 
     <link rel="canonical" href="https://niv-dahan-art.vercel.app/" /> <!-- Placeholder for your actual website URL -->
@@ -24,7 +24,7 @@
       "jobTitle": "International Moroccan Tadelakt Artist",
       "description": "יוצר, וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד.",
       "url": "https://niv-dahan-art.vercel.app/",
-      "image": "https://niv-dahan-art.vercel.app/01.webp",
+      "image": "01.webp",
       "sameAs": [
         "https://www.instagram.com/niv_dahan___/",
         "https://www.facebook.com/niv.aviv.5",
@@ -158,6 +158,41 @@
         .admin-row:nth-child(even) { background-color: #f9fafb; }
         .admin-row:hover { background-color: #fef8f4; }
         th, td { white-space: nowrap; }
+
+        /* --- Mobile Specific Adjustments --- */
+        @media (max-width: 767px) {
+            /* Footer social icons - allow wrapping */
+            .footer-social-links {
+                flex-wrap: wrap;
+                justify-content: center; /* Center items when wrapped */
+                gap: 1.5rem; /* Increase gap for better touch targets */
+                padding-left: 1rem; /* Add some padding to prevent sticking to edges */
+                padding-right: 1rem;
+            }
+
+            .footer-social-links .group {
+                min-width: 80px; /* Ensure each item has a minimum width to prevent squishing */
+            }
+
+            /* Adjust spacing around sections */
+            main.space-y-24, main.space-y-32 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+                space-y: 12 !important; /* Reduce overall vertical spacing for mobile */
+            }
+
+            section.space-y-12 {
+                space-y: 6 !important;
+            }
+            
+            /* Smaller text for very small screens if needed, though current sizes are generally okay */
+            h1.text-5xl {
+                font-size: 3.5rem; /* Slightly smaller H1 for very small screens */
+            }
+            h2.text-4xl {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -301,7 +336,7 @@
     <footer class="bg-white py-12 border-t border-gray-100 mt-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-6">
             <div class="text-4xl font-bold serif text-gradient-tadelakt">Niv Dahan</div>
-            <div class="flex gap-8 mt-2">
+            <div class="flex gap-8 mt-2 footer-social-links">
                 <a href="https://www.instagram.com/niv_dahan___/" target="_blank" class="group flex flex-col items-center gap-2" aria-label="אינסטגרם">
                     <div class="bg-gray-50 p-4 rounded-full group-hover:bg-pink-100 transition shadow-sm">
                         <i data-lucide="instagram" class="w-6 h-6 text-gray-700 group-hover:text-pink-600"></i>
