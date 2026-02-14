@@ -3,77 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>Niv Dahan | אמן טדלקט מרוקאי בינלאומי | Art & Material</title>
-    <meta name="description" content="ניב דהן, אמן ומומחה עולמי לטדלקט מרוקאי. שחזור ושימור בטיח סיד עתיק בעבודת יד. חיבור לחומר ולנפש.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Rubik:wght@400;500;700&display=swap');
-        
-        :root {
-            --tadelakt-ochre: #C2825A;
-            --tadelakt-beige: #EADCD1;
-            --light-bg: #fdfbf7;
-            --text-dark: #2d2d2d;
-        }
-
+        :root { --tadelakt-ochre: #C2825A; --tadelakt-beige: #EADCD1; --light-bg: #fdfbf7; --text-dark: #2d2d2d; }
         html, body { max-width: 100vw; overflow-x: hidden; scroll-behavior: smooth; background-color: var(--light-bg); color: var(--text-dark); }
         body { font-family: 'Assistant', sans-serif; }
         .serif { font-family: 'Rubik', serif; }
+        .text-gradient-tadelakt { background: linear-gradient(to right, var(--tadelakt-ochre), #9e6443); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .hero-section { background-size: cover; background-position: center; position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; transition: 1s; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0.1), var(--light-bg)); }
 
-        .text-gradient-tadelakt {
-            background: linear-gradient(to right, var(--tadelakt-ochre), #9e6443);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .glass-card { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
+        
+        #whatsapp-float { position: fixed; bottom: 25px; left: 25px; z-index: 999; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
 
-        /* עיצוב ה-Hero הדינמי */
-        .hero-section {
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: url('01.webp'); /* ברירת מחדל עד שהאקסל נטען */
-        }
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.1), var(--light-bg));
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-        }
-
-        #whatsapp-float { 
-            position: fixed; bottom: 25px; left: 25px; z-index: 999; background: #25D366; color: white; 
-            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15); transition: transform 0.2s; 
-        }
-
-        .img-straight {
-            overflow: hidden; border-radius: 1.5rem; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
-            background-color: #eee; position: relative;
-        }
-
+        .img-straight { overflow: hidden; border-radius: 1.5rem; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); background-color: #eee; position: relative; }
         .media-content { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
         .img-straight:hover .media-content { transform: scale(1.05); }
-
-        .video-container video { width: 100%; height: 100%; object-fit: cover; }
-
-        @media (max-width: 767px) {
-            h1.text-5xl { font-size: 3.5rem; }
-        }
     </style>
 </head>
 <body>
@@ -95,7 +47,7 @@
     <header id="hero-bg" class="hero-section">
         <div class="hero-overlay"></div>
         <div class="z-10 max-w-4xl text-center space-y-6 mt-10 w-full px-4">
-            <h1 class="text-5xl md:text-8xl font-bold serif text-[#333] leading-none">
+            <h1 class="text-5xl md:text-8xl font-bold serif text-[#333] leading-none animate-fade-in">
                 Niv Dahan<br><span class="text-gradient-tadelakt">Art & Material</span>
             </h1>
             <p class="text-lg md:text-2xl font-light text-gray-600 tracking-wide flex items-center justify-center gap-2">
@@ -110,10 +62,9 @@
 
     <main class="max-w-7xl mx-auto px-4 py-16 space-y-24 md:space-y-32">
         
-        <!-- אודות והטקסט שלך -->
         <section class="grid md:grid-cols-2 gap-12 items-center">
             <div id="about-media-container" class="img-straight h-[400px] md:h-[500px] order-2 md:order-1">
-                <img src="02.webp" class="media-content" id="about-img">
+                <!-- יתמלא אוטומטית ע"י 'בית' מספר 2 -->
             </div>
             <div class="space-y-6 text-right order-1 md:order-2">
                 <div class="flex items-center gap-3 justify-end">
@@ -123,25 +74,21 @@
                 <h2 class="text-4xl md:text-5xl font-bold serif text-[#2d2d2d]">חיבור ל<span class="text-gradient-tadelakt">עבר</span>, יצירה ל<span class="text-gradient-tadelakt">עתיד</span></h2>
                 <div class="text-gray-600 leading-relaxed space-y-4 text-lg">
                     <p>יוצר וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד.</p>
-                    <p>"יש משהו בטדלקט שמרפא דרך העשייה. לא כי הוא מטפל, אלא כי הוא מחזיר אותנו לידיים, לנשימה, לקצב. העבודה עם החומר מבקשת נוכחות: להרגיש את הלחות, את ההתנגדות, את הזמן."</p>
-                    <p>"לפעמים, כדי לרפא, לא צריך לדבר. צריך לעשות."</p>
+                    <p>"יש משהו בטדלקט שמרפא דרך העשייה. לא כי הוא מטפל, אלא כי הוא מחזיר אותנו לידיים, לנשימה, לקצב. העבודה עם החומר מבקשת נוכחות: להרגיש את הלחות, את ההתנגדות, את הזמן. כל תנועה מדויקת, כל שכבה נבנית לאט, וככה גם בפנים — משהו מסתדר."</p>
                 </div>
             </div>
         </section>
 
-        <!-- קטע הפיגמנטים -->
         <section class="space-y-12">
             <div class="text-center">
                 <h3 class="text-3xl md:text-4xl font-bold serif mb-4">הקסם של <span class="text-gradient-tadelakt">הפיגמנטים הטבעיים</span></h3>
                 <p class="text-gray-500 italic">"צבע שנולד מהאדמה – אבנים טחונות, מינרלים וזמן"</p>
             </div>
-            <!-- הגלריה הדינמית מחליפה את ה-3 הקבועים אם תרצה, כרגע נשאיר מקום לגלריה הכללית -->
-            <div id="dynamic-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="col-span-full text-center py-10 text-gray-400">טוען פרויקטים...</div>
+            <div id="dynamic-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- פרויקטים מהאקסל יטענו כאן -->
             </div>
         </section>
 
-        <!-- יצירת קשר -->
         <section id="contact-info" class="glass-card p-10 rounded-[2.5rem] max-w-4xl mx-auto text-center relative overflow-hidden">
             <h3 class="text-3xl md:text-5xl font-bold serif mb-6">בואו נדבר על <span class="text-gradient-tadelakt">הפרויקט הבא</span></h3>
             <div class="flex flex-col md:flex-row gap-6 justify-center mt-8">
@@ -152,69 +99,73 @@
     </main>
 
     <footer class="bg-white py-12 border-t border-gray-100 text-center">
-        <div class="text-3xl font-bold serif text-gradient-tadelakt mb-4">Niv Dahan</div>
+        <div class="text-3xl font-bold serif text-gradient-tadelakt mb-2">Niv Dahan</div>
         <p class="text-gray-400 text-sm">© כל הזכויות שמורות לניב דהן 2026</p>
     </footer>
 
     <!-- Lightbox -->
     <div id="lightbox" class="fixed inset-0 bg-black/95 z-[2000] hidden flex items-center justify-center p-4" onclick="this.classList.add('hidden')">
-        <div id="lightbox-content" class="max-w-5xl w-full h-[80vh] flex items-center justify-center"></div>
+        <div id="lightbox-content" class="max-w-5xl w-full h-[80vh] flex items-center justify-center" onclick="event.stopPropagation()"></div>
         <button class="absolute top-5 right-5 text-white"><i data-lucide="x" class="w-10 h-10"></i></button>
     </div>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqbenjkSNnGq7hjh2GlYSazgkLd5HFj_kp79u7N1pwrR-choqD4GaNAt7G0lMoigKiaw/exec';
 
-        // פורמט קישורים (תמונות מהירות / וידאו)
-        function formatMediaUrl(url, type) {
+        // זיהוי אם זה וידאו או תמונה לפי סיומת או ידנית
+        function isVideo(url) {
+            return url.match(/\.(mp4|mov|webm|ogg)$/i) || url.includes('drive.google.com/uc?export=download');
+        }
+
+        function formatMediaUrl(url) {
             if (!url) return '';
             let id = '';
             if (url.includes('id=')) id = url.split('id=')[1].split('&')[0];
             else if (url.includes('/d/')) id = url.split('/d/')[1].split('/')[0];
             
             if (!id) return url;
-            if (type.includes('וידאו')) return `https://drive.google.com/uc?export=download&id=${id}`;
-            return `https://lh3.googleusercontent.com/u/0/d/${id}=w1600`;
+            // עבור תמונה - lh3, עבור וידאו - קישור ישיר
+            return url.includes('video') ? `https://drive.google.com/uc?export=download&id=${id}` : `https://lh3.googleusercontent.com/d/${id}=w1600`;
         }
 
         async function loadSite() {
             try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
                 const projects = data.projects;
 
-                // 1. קטגוריית בית - תמונת Hero ושלט אודות
-                const homeItems = projects.filter(p => p.קטגוריה === 'בית');
+                // 1. טיפול ב"בית" (01 ו-02)
+                const homeItems = projects.filter(p => p["שם_הפרוייקט"] === "בית");
                 
-                // Hero - סדר 01
-                const hero = homeItems.find(p => p.סדר.toString().includes('1'));
+                // תמונת הרקע (מספר 1)
+                const hero = homeItems.find(p => p["מספר"].toString() == "1");
                 if (hero) {
-                    document.getElementById('hero-bg').style.backgroundImage = `url('${formatMediaUrl(hero.קישור, 'תמונה')}')`;
+                    document.getElementById('hero-bg').style.backgroundImage = `url('${formatMediaUrl(hero["קישור"])}')`;
                 }
 
-                // אודות - סדר 02
-                const about = homeItems.find(p => p.סדר.toString().includes('2'));
+                // תמונת האודות (מספר 2)
+                const about = homeItems.find(p => p["מספר"].toString() == "2");
                 if (about) {
                     const container = document.getElementById('about-media-container');
-                    if (about.סוג.includes('וידאו')) {
-                        container.innerHTML = `<video src="${formatMediaUrl(about.קישור, 'וידאו')}" class="media-content" autoplay muted loop playsinline></video>`;
-                    } else {
-                        container.innerHTML = `<img src="${formatMediaUrl(about.קישור, 'תמונה')}" class="media-content">`;
-                    }
+                    const url = formatMediaUrl(about["קישור"]);
+                    container.innerHTML = `<img src="${url}" class="media-content">`;
                 }
 
-                // 2. שאר הפרויקטים לגלריה
+                // 2. גלריית פרויקטים (כל מה שלא "בית")
                 const gallery = document.getElementById('dynamic-gallery');
                 gallery.innerHTML = '';
 
-                projects.filter(p => p.קטגוריה !== 'בית').forEach(proj => {
+                projects.filter(p => p["שם_הפרוייקט"] !== "בית").forEach(proj => {
                     const item = document.createElement('div');
-                    item.className = 'img-straight h-80 cursor-pointer bg-gray-100 group';
+                    item.className = 'img-straight h-80 cursor-pointer bg-gray-100 group relative';
                     item.onclick = () => openLightbox(proj);
 
-                    const url = formatMediaUrl(proj.קישור, proj.סוג);
+                    const url = formatMediaUrl(proj["קישור"]);
                     
-                    if (proj.סוג.includes('וידאו')) {
+                    // בדיקה אם הקישור הוא וידאו (נניח אם התיאור מכיל 'וידאו' או לפי סיומת)
+                    const isVid = proj["תיאור"].includes('וידאו') || url.includes('mp4');
+
+                    if (isVid) {
                         item.innerHTML = `
                             <video src="${url}" class="media-content" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video>
                             <div class="absolute inset-0 flex items-center justify-center bg-black/20"><i data-lucide="play" class="text-white w-12 h-12"></i></div>
@@ -225,29 +176,35 @@
 
                     const overlay = document.createElement('div');
                     overlay.className = 'absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4 text-white text-right';
-                    overlay.innerHTML = `<h4 class="font-bold font-serif">${proj.שם_הפרויקט}</h4><p class="text-xs opacity-80">${proj.תיאור}</p>`;
+                    // הצגת שם הפרויקט, התאריך והתיאור
+                    overlay.innerHTML = `
+                        <h4 class="font-bold font-serif text-lg">${proj["שם_הפרוייקט"]}</h4>
+                        ${proj["תאריך"] ? `<p class="text-[10px] opacity-70">${proj["תאריך"]}</p>` : ''}
+                        <p class="text-xs opacity-90">${proj["תיאור"]}</p>
+                    `;
                     item.appendChild(overlay);
-
                     gallery.appendChild(item);
                 });
 
                 lucide.createIcons();
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("Error:", e); }
         }
 
         function openLightbox(proj) {
             const content = document.getElementById('lightbox-content');
-            const url = formatMediaUrl(proj.קישור, proj.סוג);
-            if (proj.סוג.includes('וידאו')) {
+            const url = formatMediaUrl(proj["קישור"]);
+            const isVid = proj["תיאור"].includes('וידאו') || url.includes('mp4');
+
+            if (isVid) {
                 content.innerHTML = `<video src="${url}" controls autoplay class="max-w-full max-h-full"></video>`;
             } else {
                 content.innerHTML = `<img src="${url}" class="max-w-full max-h-full object-contain">`;
             }
             document.getElementById('lightbox').classList.remove('hidden');
+            lucide.createIcons();
         }
 
         window.onload = loadSite;
-        lucide.createIcons();
     </script>
 </body>
 </html>
