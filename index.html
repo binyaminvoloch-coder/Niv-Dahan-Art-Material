@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -146,7 +145,7 @@
             <div class="flex gap-3 md:gap-4 items-center">
                 <a href="https://www.instagram.com/niv_d_tadelakt/" target="_blank" class="hover:text-pink-600 transition text-gray-600"><i data-lucide="instagram" class="w-5 h-5"></i></a>
                 <a href="https://www.facebook.com/niv.aviv.5" target="_blank" class="hover:text-blue-700 transition text-gray-600"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                <a href="https://www.threads.com/@niv_dahan___" target="_blank" class="hover:text-gray-900 transition text-gray-600"><i data-lucide="at-sign" class="w-5 h-5"></i></a>
+                <a href="https://www.threads.com/@niv_d_tadelakt/" target="_blank" class="hover:text-gray-900 transition text-gray-600"><i data-lucide="at-sign" class="w-5 h-5"></i></a>
             </div>
         </div>
     </nav>
@@ -282,7 +281,7 @@
                 </div>
                 <!-- שורה 2 -->
                 <div class="flex justify-center gap-8 footer-social-group">
-                    <a href="https://www.threads.com/@niv_dahan___" target="_blank" class="group flex flex-col items-center gap-2">
+                    <a href="https://www.threads.com/@niv_d_tadelakt/" target="_blank" class="group flex flex-col items-center gap-2">
                         <div class="bg-gray-50 p-4 rounded-full group-hover:bg-gray-200 transition shadow-sm"><i data-lucide="at-sign" class="w-6 h-6"></i></div>
                         <span class="text-xs text-gray-500">Threads</span>
                     </a>
@@ -357,10 +356,8 @@
             const ytId = getYouTubeId(url);
             if (ytId) {
                 if (isVid) {
-                    // הגדרות: autoplay=1 (ניגון אוטומטי), mute=1 (השתקה - חובה לאוטומטי בדפדפנים), loop=1 (לופ), playlist=ID (חובה ללופ), controls=0 (הסתרת כפתורים)
                     return `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0`;
                 }
-                // החזרת תמונה ממוזערת
                 return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
             }
 
@@ -374,6 +371,7 @@
             }
             return url;
         }
+
         function renderCategories() {
             const grid = document.getElementById('category-grid');
             const groups = projectsData.reduce((acc, p) => {
@@ -399,7 +397,7 @@
             lucide.createIcons();
         }
 
-      function openProjectModal(name) {
+        function openProjectModal(name) {
             const modal = document.getElementById('project-modal');
             const grid = document.getElementById('project-modal-grid');
             const titleEl = document.getElementById('project-modal-title');
@@ -410,22 +408,31 @@
             
             grid.innerHTML = filtered.map(p => {
                 const ytId = getYouTubeId(p.url);
-                const isDriveVid = (p.description || '').includes('וידאו') || p.url.includes('.mp4');
+                // בדיקה אם זה וידאו ישיר (סיומת קובץ) או וידאו מדרייב/תיקייה
+                const isDirectVid = p.url.match(/\.(mp4|webm|ogg|mov)$/i) || (p.description || '').includes('וידאו');
                 
-                // מציג תמונה בגריד
-                const thumbUrl = formatMediaUrl(p.url, false);
-                
-                // קביעת סוג המדיה ללחיצה
-                let type = 'image';
-                if (ytId) type = 'youtube';
-                else if (isDriveVid) type = 'video';
-
-                return `
-                    <div class="img-straight h-48 md:h-72 cursor-pointer relative group" onclick="openLightbox('${p.url}', '${type}')">
-                        <img src="${thumbUrl}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        ${(ytId || isDriveVid) ? '<div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition"><i data-lucide="play-circle" class="text-white w-12 h-12 opacity-90 drop-shadow-lg"></i></div>' : ''}
-                    </div>
-                `;
+                if (ytId) {
+                    // יוטיוב - ניגון אוטומטי מושתק
+                    const embedUrl = formatMediaUrl(p.url, true);
+                    return `
+                        <div class="img-straight h-48 md:h-72 relative cursor-pointer" onclick="openLightbox('${p.url}', 'youtube')">
+                            <iframe src="${embedUrl}" class="w-full h-full border-none pointer-events-none" allow="autoplay; encrypted-media"></iframe>
+                        </div>`;
+                } else if (isDirectVid) {
+                    // וידאו מהתיקייה או דרייב - ניגון אוטומטי מושתק
+                    const videoUrl = formatMediaUrl(p.url, true);
+                    return `
+                        <div class="img-straight h-48 md:h-72 relative cursor-pointer" onclick="openLightbox('${p.url}', 'video')">
+                            <video src="${videoUrl}" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                        </div>`;
+                } else {
+                    // תמונה רגילה
+                    const thumbUrl = formatMediaUrl(p.url, false);
+                    return `
+                        <div class="img-straight h-48 md:h-72 cursor-pointer relative group" onclick="openLightbox('${p.url}', 'image')">
+                            <img src="${thumbUrl}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        </div>`;
+                }
             }).join('');
             
             modal.classList.remove('hidden');
@@ -435,32 +442,31 @@
 
         function closeProjectModal() {
             document.getElementById('project-modal').classList.add('hidden');
+            // עצירת כל הוידאו בתוך המודל כשסוגרים אותו
+            document.getElementById('project-modal-grid').innerHTML = '';
             document.body.style.overflow = 'auto';
         }
 
-       function openLightbox(src, type = 'image') {
+        function openLightbox(src, type = 'image') {
             const modal = document.getElementById('lightbox-modal');
             const content = document.getElementById('lightbox-content');
             
             let htmlContent = '';
 
             if (type === 'youtube') {
-                // מקבל את הקישור עם כל ההגדרות (mute, loop, autoplay) מהפונקציה הראשונה
-                const embedUrl = formatMediaUrl(src, true); 
+                const embedUrl = formatMediaUrl(src, true).replace('mute=1', 'mute=0'); // בתוך הלייטבוקס נרצה סאונד
                 htmlContent = `<iframe src="${embedUrl}" class="w-[90vw] h-[50vw] max-w-4xl max-h-[80vh] rounded-2xl shadow-2xl border-none" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             } else if (type === 'video') {
-                // וידאו דרייב (כבר מוגדר כ-muted loop בקוד המקורי אם רוצים)
                 const videoUrl = formatMediaUrl(src, true);
-                htmlContent = `<video src="${videoUrl}" controls autoplay muted loop playsinline class="max-w-full max-h-[90vh] rounded-2xl"></video>`;
+                htmlContent = `<video src="${videoUrl}" controls autoplay playsinline class="max-w-full max-h-[90vh] rounded-2xl"></video>`;
             } else {
-                // תמונה
                 const imgUrl = formatMediaUrl(src, false);
                 htmlContent = `<img src="${imgUrl}" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl">`;
             }
 
             content.innerHTML = htmlContent;
             modal.classList.remove('hidden');
-            modal.classList.add('flex'); // חשוב למרכוז
+            modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
         }
 
