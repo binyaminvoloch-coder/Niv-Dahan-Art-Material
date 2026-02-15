@@ -3,116 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Niv Dahan | אמן טדלקט מרוקאי בינלאומי</title>
     
+    <title>Niv Dahan | אמן טדלקט מרוקאי בינלאומי | Art & Material</title>
+    <meta name="description" content="ניב דהן, אמן ומומחה עולמי לטדלקט מרוקאי. שחזור ושימור בטיח סיד עתיק בעבודת יד. חיבור לחומר ולנפש.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Niv Dahan | אמן טדלקט מרוקאי בינלאומי | Art & Material">
+    <meta property="og:description" content="יוצר, וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד.">
+    <meta property="og:image" content="01.webp">
+    <meta property="og:locale" content="he_IL">
+
+    <link rel="canonical" href="https://niv-dahan-art.vercel.app/" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Rubik:wght@400;500;700&display=swap');
-        :root { --tadelakt-ochre: #C2825A; --tadelakt-beige: #EADCD1; --light-bg: #fdfbf7; --text-dark: #2d2d2d; }
-        body { font-family: 'Assistant', sans-serif; background-color: var(--light-bg); color: var(--text-dark); scroll-behavior: smooth; overflow-x: hidden; }
+        
+        :root {
+            --tadelakt-ochre: #C2825A; 
+            --tadelakt-beige: #EADCD1; 
+            --light-bg: #fdfbf7;
+            --text-dark: #2d2d2d;
+            --text-light-gray: #6b7280;
+        }
+
+        html, body { max-width: 100vw; overflow-x: hidden; }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+        }
+
         .serif { font-family: 'Rubik', serif; }
-        .text-gradient-tadelakt { background: linear-gradient(to right, var(--tadelakt-ochre), #9e6443); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient-tadelakt {
+            background: linear-gradient(to right, var(--tadelakt-ochre), #9e6443);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         .bg-gradient-tadelakt { background: linear-gradient(to right, var(--tadelakt-ochre), #9e6443); }
 
         .hero-section {
             background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(253, 251, 247, 1)), url('01.webp');
-            background-size: cover; background-position: center 5%; min-height: 100vh; background-attachment: fixed;
+            background-size: cover;
+            background-position: center 5%;
+            position: relative;
+            min-height: 100vh;
+            background-attachment: fixed;
         }
 
-        .img-straight { overflow: hidden; border-radius: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08); background-color: #eee; position: relative; }
-        .img-straight img, .img-straight video { transition: transform 0.6s ease; width: 100%; height: 100%; object-fit: cover; }
+        @media (max-width: 767px) { .hero-section { background-attachment: scroll; } }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+        }
+
+        .img-straight {
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            position: relative;
+            background-color: #eee;
+        }
+
+        .img-straight img, .img-straight video { 
+            transition: transform 0.7s ease; 
+            width: 100%; height: 100%; object-fit: cover; 
+        }
         .img-straight:hover img { transform: scale(1.05); }
 
-        /* אנימציית כניסה לתיקיות */
-        .category-overlay { background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); }
-        
-        #toast { position: fixed; bottom: 20px; right: 20px; transform: translateY(150%); transition: transform 0.3s; z-index: 3000; background: #333; color: white; padding: 1rem; border-radius: 1rem; border-right: 4px solid var(--tadelakt-ochre); }
+        /* אפקט תיקיות (Categories) */
+        .category-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+        }
+
+        #toast { 
+            position: fixed; bottom: 20px; right: 20px; transform: translateY(150%); 
+            transition: transform 0.3s ease; z-index: 3000; background: #333; 
+            color: white; padding: 1rem 1.5rem; border-radius: 1rem; border-right: 4px solid var(--tadelakt-ochre); 
+        }
         #toast.show { transform: translateY(0); }
-        
-        #category-modal { transition: opacity 0.3s ease; }
+
+        #whatsapp-float { 
+            position: fixed; bottom: 25px; left: 25px; z-index: 999; 
+            background: #25D366; color: white; width: 60px; height: 60px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15); transition: transform 0.2s; 
+        }
+        #whatsapp-float:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
     <div id="toast"><i data-lucide="info"></i> <span id="toast-msg"></span></div>
 
-    <nav class="fixed top-0 w-full z-50 p-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-white/80 backdrop-blur-md rounded-full px-6 py-3 shadow-sm border border-white/50">
-            <div class="text-xl font-bold serif uppercase text-gradient-tadelakt">Niv Dahan</div>
-            <div class="flex gap-4">
-                <a href="https://www.instagram.com/niv_d_tadelakt/" target="_blank"><i data-lucide="instagram" class="w-5 h-5 text-gray-600"></i></a>
-                <a href="https://api.whatsapp.com/send/?phone=972535379988"><i data-lucide="message-circle" class="w-5 h-5 text-gray-600"></i></a>
+    <a href="https://api.whatsapp.com/send/?phone=972535379988" target="_blank" id="whatsapp-float">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+    </a>
+
+    <nav class="fixed top-0 w-full z-50 p-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass-card rounded-full px-4 md:px-6 py-3 shadow-sm">
+            <div class="text-lg md:text-xl font-bold tracking-widest serif uppercase text-gradient-tadelakt">Niv Dahan</div>
+            <div class="flex gap-3 md:gap-4 items-center">
+                <a href="https://www.instagram.com/niv_dahan___/" target="_blank" class="hover:text-pink-600 transition text-gray-600"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="https://www.facebook.com/niv.aviv.5" target="_blank" class="hover:text-blue-700 transition text-gray-600"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                <a href="https://www.threads.com/@niv_dahan___" target="_blank" class="hover:text-gray-900 transition text-gray-600"><i data-lucide="at-sign" class="w-5 h-5"></i></a>
             </div>
         </div>
     </nav>
 
-    <header class="hero-section flex flex-col items-center justify-center text-center px-4">
-        <h1 class="text-5xl md:text-8xl font-bold serif text-[#333] leading-none">Niv Dahan<br><span class="text-gradient-tadelakt">Art & Material</span></h1>
-        <p class="text-lg md:text-2xl mt-6 text-gray-600 font-light italic">International Moroccan Tadelakt Artist</p>
-        <a href="#contact-form" class="mt-8 bg-[#2d2d2d] text-white py-4 px-12 rounded-full font-bold shadow-xl hover:bg-tadelakt-ochre transition">יצירת קשר</a>
+    <header class="hero-section flex flex-col items-center justify-center text-center px-4 pt-20">
+        <div class="z-10 max-w-4xl space-y-6 mt-10 w-full">
+            <h1 class="text-5xl md:text-8xl font-bold serif text-[#333] drop-shadow-sm leading-none animate-fade-in-up">
+                Niv Dahan<br><span class="text-gradient-tadelakt">Art & Material</span>
+            </h1>
+            <p class="text-lg md:text-2xl font-light text-gray-600 tracking-wide max-w-2xl mx-auto px-2">
+                <i data-lucide="leaf" class="w-6 h-6 text-tadelakt-ochre inline mr-1"></i> International Moroccan Tadelakt Artist
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center pt-8">
+                <a href="#contact-form" class="bg-[#2d2d2d] text-white font-bold py-4 px-12 rounded-full hover:bg-tadelakt-ochre transition-all shadow-xl inline-block transform hover:-translate-y-1">יצירת קשר</a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 animate-bounce text-gray-400"><i data-lucide="chevron-down" class="w-10 h-10"></i></div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-20 space-y-32">
+    <main class="max-w-7xl mx-auto px-4 py-16 md:py-20 space-y-24 md:space-y-32">
         
-        <!-- אודות (תמונת 02.webp מקומית) -->
+        <!-- אודות (תמונה מקומית 02) -->
         <section class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="img-straight h-[450px] md:h-[550px]">
-                <img src="02.webp" alt="Niv Dahan">
-            </div>
-            <div class="text-right space-y-6">
-                <h2 class="text-4xl font-bold serif">חיבור ל<span class="text-gradient-tadelakt">חומר</span></h2>
-                <p class="text-lg text-gray-600 leading-relaxed">יוצר וחוקר אומנויות קישוט עתיקות מבוססות סיד. מומחה בשחזור ושימור מבנים בטיח מרוקאי (Tadelakt) בעבודת יד מסורתית.</p>
-            </div>
-        </section>
-
-        <!-- פיגמנטים (03-05 מקומי) -->
-        <section class="space-y-12">
-            <h3 class="text-3xl font-bold text-center serif">הקסם של הפיגמנטים</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[400px]">
-                <div class="img-straight h-80 md:h-full cursor-pointer" onclick="openLightbox('03.webp')"><img src="03.webp"></div>
-                <div class="img-straight h-80 md:h-full cursor-pointer md:-mt-10" onclick="openLightbox('04.webp')"><img src="04.webp"></div>
-                <div class="img-straight h-80 md:h-full cursor-pointer" onclick="openLightbox('05.webp')"><img src="05.webp"></div>
-            </div>
-        </section>
-
-        <!-- גלריית פרויקטים (קטגוריות) -->
-        <section id="gallery-section" class="space-y-12">
-            <div class="text-center">
-                <h3 class="text-3xl font-bold serif mb-2">גלריית עבודות</h3>
-                <p class="text-gray-400">לחצו על קטגוריה לצפייה בפרויקט המלא</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="category-grid">
-                <!-- קטגוריות ייטענו כאן -->
-            </div>
-        </section>
-
-        <!-- טופס יצירת קשר -->
-        <section id="contact-form" class="bg-white p-8 md:p-16 rounded-[2.5rem] shadow-sm border border-orange-50 max-w-4xl mx-auto">
-            <h3 class="text-3xl font-bold serif text-center mb-8">בואו נדבר</h3>
-            <form onsubmit="submitToGoogleSheets(event)" class="space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <input type="text" name="name" required placeholder="שם מלא" class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-tadelakt-ochre">
-                    <input type="tel" name="phone" required placeholder="טלפון" class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-tadelakt-ochre">
+            <div class="relative group mx-auto w-full max-w-md md:max-w-full order-2 md:order-1">
+                <div class="absolute -inset-4 bg-tadelakt-beige rounded-[2rem] -z-10 rotate-2"></div>
+                <div class="img-straight h-[400px] md:h-[500px]">
+                    <img src="02.webp" alt="ניב דהן בעבודת טדלקט">
                 </div>
-                <textarea name="message" rows="4" placeholder="איך אוכל לעזור?" class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-tadelakt-ochre"></textarea>
-                <button type="submit" id="submit-btn" class="w-full bg-gradient-tadelakt text-white font-bold py-4 rounded-xl">שלח הודעה</button>
-            </form>
+            </div>
+            <div class="space-y-6 text-right order-1 md:order-2">
+                <div class="flex items-center gap-3 justify-end">
+                    <span class="w-12 h-1 bg-gradient-tadelakt rounded-full"></span>
+                    <span class="text-sm font-bold tracking-widest text-tadelakt-ochre uppercase">האמן והחומר</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold serif text-[#2d2d2d]">חיבור ל<span class="text-gradient-tadelakt">עבר</span>, יצירה ל<span class="text-gradient-tadelakt">עתיד</span></h2>
+                <div class="text-gray-600 leading-relaxed space-y-4 text-lg">
+                    <p>יוצר וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד. ניב דהן מביא עמו ידע רב וניסיון עשיר, תוך הקפדה על הפרטים הקטנים ביותר והבנה עמוקה של החומר.</p>
+                    <p>"יש משהו בטדלקט שמרפא דרך העשייה. לא כי הוא מטפל, אלא כי הוא מחזיר אותנו לידיים, לנשימה, לנשימה. העבודה עם החומר מבקשת נוכחות: להרגיש את הלחות, את ההתנגדות, את הזמן. כל תנועה מדויקת, כל שכבה נבנית לאט, וככה גם בפנים — משהו מסתדר."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- פיגמנטים (תמונות מקומיות 03-05) -->
+        <section class="space-y-12">
+            <div class="text-center">
+                <h3 class="text-3xl md:text-4xl font-bold serif mb-4 text-[#2d2d2d]">הקסם של <span class="text-gradient-tadelakt">הפיגמנטים הטבעיים</span></h3>
+                <p class="text-gray-500">צבע שנולד מהאדמה</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-auto md:h-[450px]">
+                <div class="img-straight h-[350px] md:h-full relative cursor-pointer" onclick="openLightbox('03.webp')">
+                    <img src="03.webp" alt="פיגמנטים טבעיים">
+                    <div class="absolute bottom-4 right-4 bg-white/90 px-4 py-2 rounded-xl text-sm font-bold shadow-sm">צבע מהטבע</div>
+                </div>
+                <div class="img-straight h-[350px] md:h-full relative md:-mt-12 cursor-pointer shadow-2xl" onclick="openLightbox('04.webp')">
+                    <img src="04.webp" alt="טקסטורה עמוקה">
+                    <div class="absolute bottom-4 right-4 bg-white/90 px-4 py-2 rounded-xl text-sm font-bold shadow-sm">עומק וטקסטורה</div>
+                </div>
+                <div class="img-straight h-[350px] md:h-full relative cursor-pointer" onclick="openLightbox('05.webp')">
+                    <img src="05.webp" alt="אומנות עתיקה">
+                    <div class="absolute bottom-4 right-4 bg-white/90 px-4 py-2 rounded-xl text-sm font-bold shadow-sm">אומנות עתיקה</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- גלריית פרויקטים דינמית (תיקיות) -->
+        <section class="space-y-12">
+            <h3 class="text-2xl font-bold text-center border-b-2 border-tadelakt-beige pb-4 w-fit mx-auto px-10 text-gray-400 uppercase tracking-widest">גלריית עבודות</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-4" id="category-grid">
+                <!-- תיקיות פרויקטים ייטענו כאן -->
+            </div>
+        </section>
+
+        <!-- טופס יצירת קשר (מקורי) -->
+        <section id="contact-form" class="relative">
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-full bg-tadelakt-beige blur-[100px] rounded-full -z-10"></div>
+            <div class="glass-card p-6 md:p-14 rounded-[2rem] max-w-4xl mx-auto relative z-10 bg-white/80 overflow-hidden">
+                <div class="text-center mb-10">
+                    <h3 class="text-3xl md:text-5xl font-bold serif mb-3 text-[#2d2d2d]">בואו נדבר על <span class="text-gradient-tadelakt">הפרויקט הבא</span></h3>
+                    <p class="text-gray-500 text-lg">השאירו פרטים ואשמח לחזור אליכם</p>
+                </div>
+                <form id="contactForm" onsubmit="submitToGoogleSheets(event)" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <input type="text" name="name" required class="w-full bg-white border border-gray-100 rounded-xl p-4" placeholder="שם מלא">
+                        <input type="tel" name="phone" required class="w-full bg-white border border-gray-100 rounded-xl p-4" placeholder="טלפון">
+                    </div>
+                    <input type="text" name="projectType" class="w-full bg-white border border-gray-100 rounded-xl p-4" placeholder="נושא / סוג פרויקט">
+                    <textarea name="message" rows="5" class="w-full bg-white border border-gray-100 rounded-xl p-4" placeholder="הודעה..."></textarea>
+                    <button type="submit" id="submit-btn" class="w-full bg-gradient-tadelakt text-white font-bold text-xl py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                        <span>שלח הודעה</span><i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </form>
+            </div>
         </section>
     </main>
 
-    <!-- מודל גלריית קטגוריה -->
-    <div id="category-modal" class="fixed inset-0 z-[1000] hidden bg-white overflow-y-auto">
-        <div class="sticky top-0 bg-white/90 backdrop-blur-md p-6 flex justify-between items-center border-b z-50">
-            <h4 id="modal-title" class="text-2xl font-bold serif text-tadelakt-ochre"></h4>
-            <button onclick="closeCategory()" class="p-3 bg-gray-100 rounded-full hover:bg-red-50 transition"><i data-lucide="x"></i></button>
+    <!-- פוטר (מקורי) -->
+    <footer class="bg-white py-12 border-t border-gray-100 mt-10">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-6">
+            <div class="text-4xl font-bold serif text-gradient-tadelakt">Niv Dahan</div>
+            <div class="flex flex-col md:flex-row gap-8 justify-center w-full">
+                <div class="flex justify-center gap-8">
+                    <a href="https://www.instagram.com/niv_dahan___/" target="_blank" class="flex flex-col items-center gap-1">
+                        <div class="bg-gray-50 p-4 rounded-full hover:bg-pink-100 transition"><i data-lucide="instagram" class="w-6 h-6"></i></div>
+                        <span class="text-xs text-gray-500">Instagram</span>
+                    </a>
+                    <a href="https://www.facebook.com/niv.aviv.5" target="_blank" class="flex flex-col items-center gap-1">
+                        <div class="bg-gray-50 p-4 rounded-full hover:bg-blue-100 transition"><i data-lucide="facebook" class="w-6 h-6"></i></div>
+                        <span class="text-xs text-gray-500">Facebook</span>
+                    </a>
+                </div>
+            </div>
+            <p class="text-gray-400 text-sm mt-4">© כל הזכויות שמורות לניב דהן 2026</p>
         </div>
-        <div class="max-w-7xl mx-auto p-6 grid grid-cols-2 md:grid-cols-3 gap-4" id="modal-grid"></div>
+    </footer>
+
+    <!-- מודל גלריית פרויקט (פנימי) -->
+    <div id="project-modal" class="fixed inset-0 z-[2500] hidden bg-white overflow-y-auto">
+        <div class="sticky top-0 bg-white/90 backdrop-blur-md p-6 flex justify-between items-center border-b z-50">
+            <h4 id="project-modal-title" class="text-2xl font-bold serif text-tadelakt-ochre"></h4>
+            <button onclick="closeProjectModal()" class="p-3 bg-gray-100 rounded-full hover:bg-red-50 transition"><i data-lucide="x"></i></button>
+        </div>
+        <div class="max-w-7xl mx-auto p-6 grid grid-cols-2 md:grid-cols-3 gap-4" id="project-modal-grid"></div>
     </div>
 
-    <!-- לייטבוקס לתמונה בודדת -->
-    <div id="lightbox" class="fixed inset-0 bg-black/95 z-[2000] hidden flex items-center justify-center p-4" onclick="closeLightbox()">
+    <!-- לייטבוקס (תמונה בודדת) -->
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-[3000] hidden flex items-center justify-center p-4" onclick="closeLightbox()">
         <button class="absolute top-5 right-5 text-white"><i data-lucide="x" class="w-10 h-10"></i></button>
         <div id="lightbox-content" class="max-w-full max-h-full" onclick="event.stopPropagation()"></div>
     </div>
@@ -121,47 +248,48 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqbenjkSNnGq7hjh2GlYSazgkLd5HFj_kp79u7N1pwrR-choqD4GaNAt7G0lMoigKiaw/exec';
         let projectsData = [];
 
-        async function loadData() {
+        // 1. טעינת נתונים
+        async function loadSiteData() {
             try {
                 const res = await fetch(SCRIPT_URL);
                 const data = await res.json();
                 projectsData = data.projects || [];
                 renderCategories();
-            } catch (e) { console.error("Data error", e); }
+            } catch (e) { console.error("Error loading data", e); }
         }
 
-        function formatMediaUrl(url, isVid = false) {
+        // 2. אופטימיזציית URL
+        function formatImageUrl(url, isVid = false) {
             if (!url) return '01.webp';
-            if (url.includes('id=')) {
-                const id = url.split('id=')[1].split('&')[0];
-                return isVid ? `https://drive.google.com/uc?id=${id}&export=download` : `https://drive.google.com/thumbnail?id=${id}&sz=w800-rw`;
-            }
-            if (url.includes('/d/')) {
-                const id = url.split('/d/')[1].split('/')[0];
+            let id = '';
+            if (url.includes('id=')) id = url.split('id=')[1].split('&')[0];
+            else if (url.includes('/d/')) id = url.split('/d/')[1].split('/')[0];
+            
+            if (id) {
                 return isVid ? `https://drive.google.com/uc?id=${id}&export=download` : `https://drive.google.com/thumbnail?id=${id}&sz=w800-rw`;
             }
             return url;
         }
 
+        // 3. הצגת תיקיות
         function renderCategories() {
             const grid = document.getElementById('category-grid');
-            // קיבוץ לפי שם הפרויקט
-            const categories = projectsData.reduce((acc, p) => {
-                const cat = p.name || 'כללי';
-                if (!acc[cat]) acc[cat] = [];
-                acc[cat].push(p);
+            const groups = projectsData.reduce((acc, p) => {
+                const name = p.name || 'עבודות כלליות';
+                if (!acc[name]) acc[name] = [];
+                acc[name].push(p);
                 return acc;
             }, {});
 
-            grid.innerHTML = Object.keys(categories).map(catName => {
-                const items = categories[catName];
-                const coverImg = formatMediaUrl(items[0].url);
+            grid.innerHTML = Object.keys(groups).map(name => {
+                const items = groups[name];
+                const coverImg = formatImageUrl(items[0].url);
                 return `
-                    <div class="img-straight h-64 md:h-80 cursor-pointer group" onclick="openCategory('${catName}')">
-                        <img src="${coverImg}" class="group-hover:scale-110">
+                    <div class="img-straight h-64 md:h-80 cursor-pointer group" onclick="openProjectModal('${name}')">
+                        <img src="${coverImg}" loading="lazy">
                         <div class="category-overlay absolute inset-0 flex flex-col justify-end p-4 text-white">
-                            <span class="text-xs uppercase tracking-widest opacity-70">${items.length} פריטים</span>
-                            <h4 class="text-lg font-bold">${catName}</h4>
+                            <span class="text-[10px] uppercase tracking-widest opacity-70">${items.length} פריטים</span>
+                            <h4 class="text-lg font-bold">${name}</h4>
                         </div>
                     </div>
                 `;
@@ -169,20 +297,19 @@
             lucide.createIcons();
         }
 
-        function openCategory(name) {
-            const modal = document.getElementById('category-modal');
-            const grid = document.getElementById('modal-grid');
-            document.getElementById('modal-title').innerText = name;
+        // 4. פתיחת פרויקט
+        function openProjectModal(name) {
+            const modal = document.getElementById('project-modal');
+            const grid = document.getElementById('project-modal-grid');
+            document.getElementById('project-modal-title').innerText = name;
             
-            const filtered = projectsData.filter(p => (p.name || 'כללי') === name);
-            
+            const filtered = projectsData.filter(p => (p.name || 'עבודות כלליות') === name);
             grid.innerHTML = filtered.map(p => {
                 const isVid = (p.description || '').includes('וידאו') || p.url.includes('.mp4');
-                const thumb = formatMediaUrl(p.url, false);
-                const full = formatMediaUrl(p.url, isVid);
+                const url = formatImageUrl(p.url, isVid);
                 return `
-                    <div class="img-straight h-48 md:h-72 cursor-pointer" onclick="openLightbox('${full}', ${isVid})">
-                        <img src="${thumb}">
+                    <div class="img-straight h-48 md:h-72 cursor-pointer" onclick="openLightbox('${url}', ${isVid})">
+                        ${isVid ? `<video src="${url}" muted loop playsinline autoplay></video>` : `<img src="${url}" loading="lazy">`}
                         ${isVid ? '<div class="absolute inset-0 flex items-center justify-center"><i data-lucide="play" class="text-white w-12 h-12 opacity-80"></i></div>' : ''}
                     </div>
                 `;
@@ -193,37 +320,46 @@
             lucide.createIcons();
         }
 
-        function closeCategory() {
-            document.getElementById('category-modal').classList.add('hidden');
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
 
-        function openLightbox(src, isVid = false) {
-            const lightbox = document.getElementById('lightbox');
+        // 5. לייטבוקס
+        function openLightbox(src, isVid) {
+            const lb = document.getElementById('lightbox');
             const content = document.getElementById('lightbox-content');
             content.innerHTML = isVid ? 
-                `<video src="${src}" controls autoplay class="max-w-full max-h-[90vh] rounded-xl shadow-2xl"></video>` :
+                `<video src="${src}" controls autoplay class="max-w-full max-h-[90vh] rounded-xl"></video>` :
                 `<img src="${src}" class="max-w-full max-h-[90vh] rounded-xl shadow-2xl">`;
-            lightbox.classList.remove('hidden');
+            lb.classList.remove('hidden');
         }
-
         function closeLightbox() { document.getElementById('lightbox').classList.add('hidden'); }
 
+        // 6. שליחת טופס (נשאר בדיוק אותו דבר)
         async function submitToGoogleSheets(e) {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
-            btn.innerText = 'שולח...';
+            const original = btn.innerHTML;
+            btn.innerHTML = 'שולח... <i data-lucide="loader-2" class="animate-spin ml-2"></i>';
+            btn.disabled = true;
+            lucide.createIcons();
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(Object.fromEntries(new FormData(e.target))) });
-                showToast('הודעתך התקבלה בהצלחה!');
+                showToast('ההודעה נשלחה בהצלחה!');
                 e.target.reset();
             } catch (e) { showToast('שגיאה בשליחה.'); }
-            btn.innerText = 'שלח הודעה';
+            btn.innerHTML = original; btn.disabled = false; lucide.createIcons();
         }
 
-        function showToast(m) { const t = document.getElementById('toast'); document.getElementById('toast-msg').innerText = m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 4000); }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 4000);
+        }
 
-        window.onload = () => { loadData(); lucide.createIcons(); };
+        window.onload = () => { loadSiteData(); lucide.createIcons(); };
     </script>
 </body>
 </html>
