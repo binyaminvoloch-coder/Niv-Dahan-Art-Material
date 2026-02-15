@@ -340,14 +340,15 @@
             } catch (e) { console.error("Sheet Error", e); }
         }
 
-        function formatMediaUrl(url, isVid = false) {
+function formatMediaUrl(url, isVid = false) {
             if (!url) return '01.webp';
             let id = '';
             if (url.includes('id=')) id = url.split('id=')[1].split('&')[0];
             else if (url.includes('/d/')) id = url.split('/d/')[1].split('/')[0];
             
             if (id) {
-                return isVid ? `https://drive.google.com/uc?id=${id}&export=download` : `https://drive.google.com/thumbnail?id=${id}&sz=w800-rw`;
+                // וידאו מקבל קישור לתצוגה מקדימה, תמונה מקבלת קישור לתמונה
+                return isVid ? `https://drive.google.com/file/d/${id}/preview` : `https://drive.google.com/thumbnail?id=${id}&sz=w800-rw`;
             }
             return url;
         }
@@ -386,9 +387,15 @@
                 const isVid = (p.description || '').includes('וידאו') || p.url.includes('.mp4');
                 const url = formatMediaUrl(p.url, isVid);
                 return `
-                    <div class="img-straight h-48 md:h-72 cursor-pointer" onclick="openLightbox('${url}', ${isVid})">
-                        ${isVid ? `<video src="${url}" muted loop playsinline autoplay></video>` : `<img src="${url}">`}
-                        ${isVid ? '<div class="absolute inset-0 flex items-center justify-center"><i data-lucide="play" class="text-white w-12 h-12 opacity-80"></i></div>' : ''}
+                return `
+                    <div class="img-straight h-48 md:h-72 cursor-pointer relative" onclick="openLightbox('${url}', ${isVid})">
+                        <img src="${isVid ? url.replace('/preview', '/thumbnail?sz=w800') : url}" loading="lazy">
+                        ${isVid ? `
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                                <div class="bg-white/30 backdrop-blur-sm p-3 rounded-full">
+                                    <i data-lucide="play" class="text-white fill-white w-8 h-8"></i>
+                                </div>
+                            </div>` : ''}
                     </div>
                 `;
             }).join('');
@@ -402,12 +409,20 @@
             document.body.style.overflow = 'auto';
         }
 
-        function openLightbox(src, isVid = false) {
+function openLightbox(src, isVid = false) {
             const modal = document.getElementById('lightbox-modal');
             const content = document.getElementById('lightbox-content');
-            content.innerHTML = isVid ? 
-                `<video src="${src}" controls autoplay class="max-w-full max-h-[90vh] rounded-2xl"></video>` : 
-                `<img src="${src}" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl">`;
+            
+            if (isVid) {
+                // שימוש ב-iframe עבור וידאו מדרייב
+                content.innerHTML = `
+                    <div class="relative w-[90vw] h-[50vh] md:w-[800px] md:h-[450px]">
+                        <iframe src="${src}" class="absolute inset-0 w-full h-full rounded-2xl" allow="autoplay" frameborder="0"></iframe>
+                    </div>`;
+            } else {
+                content.innerHTML = `<img src="${src}" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl">`;
+            }
+            
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             lucide.createIcons();
