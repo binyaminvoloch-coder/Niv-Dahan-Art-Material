@@ -397,129 +397,203 @@
         <button onclick="closeLightbox()" class="absolute top-5 right-5 text-gray-800 bg-gray-200 p-3 rounded-full hover:bg-red-100 hover:text-red-500 transition"><i data-lucide="x"></i></button>
         <img id="lightbox-img" src="" alt="תצוגה מוגדלת של עבודת טדלקט" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl" onclick="event.stopPropagation()">
     </div>
+<script>
+    // הגדרות בסיסיות
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqbenjkSNnGq7hjh2GlYSazgkLd5HFj_kp79u7N1pwrR-choqD4GaNAt7G0lMoigKiaw/exec'; 
+    const DEFAULT_IMG = 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop';
+    const ITEMS_BATCH = 12; // כמות פרויקטים לטעינה בכל פעם
+    
+    let allProjects = [];
+    let visibleCount = ITEMS_BATCH;
 
-    <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwrgmhU1qAlwASkj4U9u8z-LXBueZy1l_eks1ALzrn1HRje-HhbJviCve2tJbE3U1OK/exec'; // This is the old URL, remember to update for Niv Dahan's specific sheet!
+    // --- פונקציות עזר לאופטימיזציה ---
 
-        // --- Init Gallery (06 to 15) ---
-        // You can add more image paths here.
-        // If using Google Photos/Drive, replace '0X.webp' with the direct image URL.
- const galleryImages = [
-    '06.webp', '07.webp', '08.webp', '09.webp', '10.webp',
-    '11.webp', '12.webp', '13.webp', '14.webp', '15.webp',
-    '16.webp', '17.webp', '18.webp'
-];
-        const galleryContainer = document.getElementById('bottom-gallery');
-        galleryImages.forEach((fileName, index) => {
-            const div = document.createElement('div');
-            div.className = 'img-straight h-32 md:h-64 cursor-pointer bg-gray-100';
-            div.onclick = () => openLightbox(fileName);
-            div.innerHTML = `<img src="${fileName}" alt="גלריית עבודות טדלקט של ניב דהן ${index + 6}" loading="lazy" decoding="async">`;
-            galleryContainer.appendChild(div);
+    function isVideo(url, description = "") {
+        if (!url) return false;
+        const videoExtensions = ['.mp4', '.mov', '.webm', '.avi'];
+        const hasVideoExt = videoExtensions.some(ext => url.toLowerCase().includes(ext));
+        const hasVideoTag = description.toString().includes('וידאו');
+        return hasVideoExt || hasVideoTag;
+    }
+
+    function formatMediaUrl(url, isVid = false) {
+        if (!url) return DEFAULT_IMG;
+        let id = '';
+        if (url.includes('id=')) id = url.split('id=')[1].split('&')[0];
+        else if (url.includes('/d/')) id = url.split('/d/')[1].split('/')[0];
+        
+        if (!id) return url; // אם זה לא לינק מדרייב
+
+        if (isVid) {
+            // לינק ישיר להזרמת וידאו מדרייב
+            return `https://drive.google.com/uc?id=${id}&export=download`;
+        } else {
+            // אופטימיזציה: WebP, רוחב 800px
+            return `https://drive.google.com/thumbnail?id=${id}&sz=w800-rw`;
+        }
+    }
+
+    // --- טעינת נתונים מה-Sheet ---
+
+    async function initSite() {
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            
+            if (data.home) renderHome(data.home);
+            if (data.projects) {
+                allProjects = data.projects;
+                renderProjects();
+            }
+        } catch (e) {
+            console.error("שגיאה בטעינת נתונים:", e);
+        }
+        lucide.createIcons();
+    }
+
+    function renderHome(homeItems) {
+        homeItems.forEach(item => {
+            const id = item.id.toString().padStart(2, '0');
+            const isVid = isVideo(item.url);
+            const url = formatMediaUrl(item.url, isVid);
+
+            // תמונת ה-Hero (01)
+            if (id === '01') {
+                const hero = document.querySelector('.hero-section');
+                if (hero) hero.style.backgroundImage = `linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(253, 251, 247, 1)), url('${url}')`;
+            }
+
+            // מיפוי תמונות נוספות לפי ID (02, 03, 04, 05)
+            const imgIdMap = { '02': 'img-artist', '03': 'img-pigment-1', '04': 'img-pigment-2', '05': 'img-pigment-3' };
+            const elementId = imgIdMap[id];
+            
+            if (elementId) {
+                const el = document.getElementById(elementId);
+                if (el) {
+                    if (isVid) {
+                        el.parentElement.innerHTML = `<video src="${url}" autoplay muted loop playsinline class="w-full h-full object-cover"></video>`;
+                    } else {
+                        el.src = url;
+                    }
+                }
+            }
         });
+    }
 
+    function renderProjects() {
+        const container = document.getElementById('bottom-gallery');
+        if (!container) return;
+
+        const slice = allProjects.slice(0, visibleCount);
+        container.innerHTML = slice.map(p => {
+            const isVid = isVideo(p.url, p.description);
+            const url = formatMediaUrl(p.url, isVid);
+            
+            return `
+                <div class="img-straight h-48 md:h-80 cursor-pointer group relative bg-gray-100" onclick="openLightbox('${url}', ${isVid})">
+                    ${isVid ? 
+                        `<video src="${url}" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                         <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="play" class="text-white w-10 h-10 drop-shadow-lg"></i></div>` 
+                        : 
+                        `<img src="${url}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover">`
+                    }
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4 text-white text-right">
+                        <h4 class="font-bold text-sm">${p.name || ''}</h4>
+                        <p class="text-[10px] opacity-80">${p.description || ''}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // ניהול כפתור "טען עוד"
+        let btn = document.getElementById('load-more-btn');
+        if (visibleCount < allProjects.length) {
+            if (!btn) {
+                btn = document.createElement('button');
+                btn.id = 'load-more-btn';
+                btn.className = 'col-span-full mx-auto block mt-8 px-10 py-3 bg-[#2d2d2d] text-white rounded-full font-bold hover:bg-tadelakt-ochre transition';
+                btn.innerText = 'לצפייה בפרויקטים נוספים';
+                btn.onclick = () => { visibleCount += ITEMS_BATCH; renderProjects(); };
+                container.after(btn);
+            }
+        } else if (btn) {
+            btn.remove();
+        }
+        lucide.createIcons();
+    }
+
+    // --- Lightbox משופר (תומך וידאו) ---
+
+    function openLightbox(src, isVid = false) {
+        const modal = document.getElementById('lightbox-modal');
+        const img = document.getElementById('lightbox-img');
+        
+        // ניקוי וידאו קודם אם קיים
+        const oldVid = document.getElementById('lightbox-video');
+        if (oldVid) oldVid.remove();
+
+        if (isVid) {
+            img.classList.add('hidden');
+            const video = document.createElement('video');
+            video.id = 'lightbox-video';
+            video.src = src;
+            video.controls = true;
+            video.autoplay = true;
+            video.className = 'max-w-full max-h-[90vh] rounded-2xl shadow-2xl';
+            modal.appendChild(video);
+        } else {
+            img.src = src;
+            img.classList.remove('hidden');
+        }
+
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox-modal').classList.add('hidden');
+        const vid = document.getElementById('lightbox-video');
+        if (vid) vid.remove();
+        document.body.style.overflow = 'auto';
+    }
+
+    // --- פונקציית שליחת הטופס (נשארה כפי שהייתה) ---
+
+    async function submitToGoogleSheets(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        const originalBtnHtml = btn.innerHTML;
+        btn.innerHTML = 'שולח... <i data-lucide="loader-2" class="w-5 h-5 animate-spin mr-2"></i>';
+        btn.disabled = true;
         lucide.createIcons();
 
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
+            });
+            showToast('ההודעה נשלחה בהצלחה!');
+            e.target.reset();
+        } catch (error) {
+            showToast('שגיאה בשליחה. אנא נסה שוב.');
+        } finally {
+            btn.innerHTML = originalBtnHtml;
+            btn.disabled = false;
+            lucide.createIcons();
         }
-        function closeLightbox() {
-            document.getElementById('lightbox-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
+    }
 
-        async function submitToGoogleSheets(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            const originalBtnHtml = btn.innerHTML; // Store original button HTML
-            btn.innerHTML = 'שולח... <i data-lucide="loader-2" class="w-5 h-5 animate-spin mr-2"></i>'; // Update with loader
-            btn.disabled = true;
-            lucide.createIcons(); // Re-create icons for the loader
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-msg').innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 4000);
+    }
 
-            try {
-                // Ensure this SCRIPT_URL points to Niv Dahan's specific Google Sheet script!
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Important for Google Apps Script
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
-                });
-                showToast('ההודעה נשלחה בהצלחה!');
-                e.target.reset();
-            } catch (error) {
-                console.error("Error submitting form:", error);
-                showToast('שגיאה בשליחה. אנא נסה שוב.');
-            } finally {
-                btn.innerHTML = originalBtnHtml; // Restore original button HTML
-                btn.disabled = false;
-                lucide.createIcons(); // Re-create icons for the restored button
-            }
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 4000);
-        }
-
-        // Optional: Admin functions (commented out by default)
-        /*
-        async function openAdmin() {
-            const password = prompt("הכנס סיסמת מנהל:");
-            if (password === '0535379988') { // Replace with Niv's actual admin password
-                document.getElementById('admin-modal').classList.remove('hidden');
-                loadOrders();
-            } else if (password !== null) {
-                alert("סיסמה שגויה");
-            }
-        }
-
-        function closeAdmin() {
-            document.getElementById('admin-modal').classList.add('hidden');
-        }
-
-        async function loadOrders() {
-            const loader = document.getElementById('admin-loader');
-            const content = document.getElementById('admin-content');
-            loader.classList.remove('hidden');
-            content.innerHTML = '';
-
-            try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-                const orders = data.data.slice(1); // Skip headers
-
-                orders.sort((a, b) => new Date(a[0]) - new Date(b[0])); // Assuming date is first column for submission time
-
-                if (orders.length === 0) {
-                    content.innerHTML = '<tr><td colspan="5" class="text-center p-10">אין הודעות ברשימה</td></tr>';
-                } else {
-                    content.innerHTML = orders.map((row, index) => {
-                        const submissionTime = row[0] ? new Date(row[0]).toLocaleString('he-IL') : '-';
-                        return `
-                        <tr class="admin-row border-b border-gray-100 transition" id="row-${index}">
-                            <td class="p-4 font-bold text-tadelakt-ochre">${submissionTime}</td>
-                            <td class="p-4 font-medium">${row[1]}</td>
-                            <td class="p-4"><a href="tel:${row[2]}" class="hover:text-blue-500">${row[2]}</a></td>
-                            <td class="p-4">${row[3]}</td>
-                            <td class="p-4">${row[4]}</td>
-                        </tr>
-                        `;
-                    }).join('');
-                    lucide.createIcons();
-                }
-            } catch (error) {
-                content.innerHTML = '<tr><td colspan="5" class="text-center p-10 text-red-500">שגיאה בטעינת נתונים</td></tr>';
-            } finally {
-                loader.classList.add('hidden');
-            }
-        }
-        */
-    </script>
+    // הפעלה בטעינה
+    window.addEventListener('DOMContentLoaded', initSite);
+</script>
 </body>
 </html>
