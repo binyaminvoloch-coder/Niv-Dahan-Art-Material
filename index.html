@@ -49,7 +49,6 @@
             --light-bg: #fdfbf7;
             --text-dark: #2d2d2d;
             --text-light-gray: #6b7280;
-            /* Plyr Branding */
             --plyr-color-main: #C2825A;
         }
 
@@ -101,21 +100,26 @@
             border-radius: 1.5rem;
             box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
             position: relative;
-            background-color: #eee;
+            background-color: #000; /* שחור כבסיס למניעת קפיצות צבע */
         }
 
-        .img-straight img, .img-straight video { 
+        .img-straight img { 
             transition: transform 0.7s ease; width: 100%; height: 100%; object-fit: cover; 
         }
         .img-straight:hover img { transform: scale(1.05); }
 
-        .category-overlay {
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+        /* Plyr Customization - ביטול שוליים שחורים */
+        .plyr { 
+            height: 100% !important; 
+            width: 100% !important; 
+            background: #000;
         }
-
-        /* Plyr Customization */
-        .plyr { border-radius: 1.5rem; overflow: hidden; height: 100%; }
-        .plyr--video { background: transparent; }
+        .plyr video { object-fit: cover; } /* וידאו קבצים ימלא את הקוביה */
+        
+        /* להתאמת יוטיוב בתוך הקוביות הקטנות */
+        .plyr__video-embed iframe {
+            transform: scale(1.15); /* הגדלה קלה לביטול שוליים פנימיים של יוטיוב */
+        }
 
         #toast { 
             position: fixed; bottom: 20px; right: 20px; transform: translateY(150%); 
@@ -220,7 +224,6 @@
             </div>
         </section>
 
-        <!-- גלריית עבודות משולבת -->
         <section class="space-y-8">
             <h3 class="text-2xl font-bold text-center border-b-2 border-tadelakt-beige pb-4 w-fit mx-auto px-10 text-gray-400 uppercase tracking-widest">גלריית עבודות</h3>
             
@@ -315,12 +318,9 @@
 
     <div id="lightbox-modal" class="fixed inset-0 bg-white/95 z-[3000] hidden flex items-center justify-center p-4 cursor-pointer backdrop-blur-md" onclick="closeLightbox()">
         <button class="absolute top-5 right-5 bg-gray-200 p-3 rounded-full"><i data-lucide="x"></i></button>
-        <div id="lightbox-content" class="max-w-full max-h-[90vh] w-full flex items-center justify-center" onclick="event.stopPropagation()">
-            <!-- התוכן יטען כאן -->
-        </div>
+        <div id="lightbox-content" class="max-w-full max-h-[90vh] w-full flex items-center justify-center" onclick="event.stopPropagation()"></div>
     </div>
 
-    <!-- Plyr JS -->
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
     <script>
@@ -358,7 +358,7 @@
             if (!url) return '01.webp';
             const ytId = getYouTubeId(url);
             if (ytId) {
-                if (isVid) return ytId; // מחזירים רק ID עבור Plyr
+                if (isVid) return ytId;
                 return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
             }
             let id = '';
@@ -397,8 +397,19 @@
 
         function initPlyr(selector) {
             const players = Plyr.setup(selector, {
+                autoplay: true,
+                muted: true, // חובה לניגון אוטומטי בדפדפנים
+                loop: { active: true },
                 controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+                youtube: { 
+                    noCookie: true, 
+                    rel: 0, 
+                    showinfo: 0, 
+                    iv_load_policy: 3, 
+                    modestbranding: 1,
+                    autoplay: 1,
+                    mute: 1
+                }
             });
             plyrInstances.push(...players);
         }
@@ -409,7 +420,6 @@
             const titleEl = document.getElementById('project-modal-title');
             if(titleEl) titleEl.innerText = name;
             
-            // ניקוי מופעים קודמים
             plyrInstances.forEach(p => p.destroy());
             plyrInstances = [];
 
@@ -466,7 +476,7 @@
                 htmlContent = `<div class="w-[90vw] max-w-5xl aspect-video"><div id="lightbox-plyr" data-plyr-provider="youtube" data-plyr-embed-id="${ytId}"></div></div>`;
             } else if (isVid) {
                 const videoUrl = formatMediaUrl(src, true);
-                htmlContent = `<div class="w-[90vw] max-w-5xl"><video id="lightbox-plyr" playsinline controls autoplay><source src="${videoUrl}" type="video/mp4" /></video></div>`;
+                htmlContent = `<div class="w-[90vw] max-w-5xl"><video id="lightbox-plyr" playsinline controls autoplay loop muted><source src="${videoUrl}" type="video/mp4" /></video></div>`;
             } else {
                 const imgUrl = formatMediaUrl(src, false);
                 htmlContent = `<img src="${imgUrl}" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl">`;
@@ -476,8 +486,10 @@
             
             if (ytId || (isVid && type !== 'image')) {
                 new Plyr('#lightbox-plyr', {
-                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                    autoplay: true
+                    autoplay: true,
+                    muted: true,
+                    loop: { active: true },
+                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
                 });
             }
 
