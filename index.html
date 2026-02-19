@@ -1,41 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Niv Dahan | אמן טדלקט מרוקאי בינלאומי | Art & Material</title>
-    <meta name="description" content="ניב דהן, אמן ומומחה עולמי לטדלקט מרוקאי. שחזור ושימור בטיח סיד עתיק בעבודת יד. חיבור לחומר ולנפש.">
+    <title>Niv Dahan | Tadelakt Original מבית מג׳ייאן דיימונד</title>
+    <meta name="description" content="ניב דהן, אמן ומומחה עולמי לטדלקט מרוקאי. Tadelakt Original Moroccan plaster מבית מג׳ייאן דיימונד. שחזור ושימור בטיח סיד עתיק בעבודת יד.">
     
     <!-- Plyr CSS -->
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Niv Dahan | אמן טדלקט מרוקאי בינלאומי | Art & Material">
-    <meta property="og:description" content="יוצר, וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד.">
+    <meta property="og:title" content="Niv Dahan | Tadelakt Original מבית מג׳ייאן דיימונד">
+    <meta property="og:description" content="יוצר, וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד. Tadelakt Original Moroccan plaster מבית מג׳ייאן דיימונד.">
     <meta property="og:image" content="01.webp">
     <meta property="og:locale" content="he_IL">
 
     <link rel="canonical" href="https://niv-dahan-art.vercel.app/" />
-    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Niv Dahan",
-      "jobTitle": "International Moroccan Tadelakt Artist",
-      "description": "יוצר, וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד.",
-      "url": "https://niv-dahan-art.vercel.app/",
-      "image": "01.webp",
-      "sameAs": [
-        "https://www.instagram.com/niv_d_tadelakt/",
-        "https://www.facebook.com/niv.aviv.5",
-        "https://www.threads.com/@niv_d_tadelakt/"
-      ],
-      "telephone": "+972-53-5379988"
-    }
-    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -100,7 +82,7 @@
             border-radius: 1.5rem;
             box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
             position: relative;
-            background-color: #000; /* שחור כבסיס למניעת קפיצות צבע */
+            background-color: #000;
         }
 
         .img-straight img { 
@@ -108,18 +90,24 @@
         }
         .img-straight:hover img { transform: scale(1.05); }
 
-        /* Plyr Customization - ביטול שוליים שחורים */
-        .plyr { 
-            height: 100% !important; 
-            width: 100% !important; 
-            background: #000;
+        /* אקורדיון והרחבת טקסט */
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease, opacity 0.5s ease;
+            opacity: 0;
         }
-        .plyr video { object-fit: cover; } /* וידאו קבצים ימלא את הקוביה */
-        
-        /* להתאמת יוטיוב בתוך הקוביות הקטנות */
-        .plyr__video-embed iframe {
-            transform: scale(1.15); /* הגדלה קלה לביטול שוליים פנימיים של יוטיוב */
+        .expandable-content.open {
+            max-height: 2000px; /* גדול מספיק כדי להכיל את הטקסט */
+            opacity: 1;
         }
+        .chevron-icon { transition: transform 0.3s ease; }
+        .chevron-icon.rotate { transform: rotate(180deg); }
+
+        /* Plyr Customization */
+        .plyr { height: 100% !important; width: 100% !important; background: #000; }
+        .plyr video { object-fit: cover; }
+        .plyr__video-embed iframe { transform: scale(1.15); }
 
         #toast { 
             position: fixed; bottom: 20px; right: 20px; transform: translateY(150%); 
@@ -158,7 +146,6 @@
             <div class="flex gap-3 md:gap-4 items-center">
                 <a href="https://www.instagram.com/niv_d_tadelakt/" target="_blank" class="hover:text-pink-600 transition text-gray-600"><i data-lucide="instagram" class="w-5 h-5"></i></a>
                 <a href="https://www.facebook.com/niv.aviv.5" target="_blank" class="hover:text-blue-700 transition text-gray-600"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                <a href="https://www.threads.com/@niv_d_tadelakt/" target="_blank" class="hover:text-gray-900 transition text-gray-600"><i data-lucide="at-sign" class="w-5 h-5"></i></a>
             </div>
         </div>
     </nav>
@@ -166,40 +153,163 @@
     <header class="hero-section flex flex-col items-center justify-center text-center px-4 pt-20">
         <div class="z-10 max-w-4xl space-y-6 mt-10 w-full">
             <h1 class="text-5xl md:text-8xl font-bold serif text-[#333] drop-shadow-sm leading-none animate-fade-in-up">
-                Niv Dahan<br><span class="text-gradient-tadelakt">Art & Material</span>
+                Niv Dahan
             </h1>
-            <p class="text-lg md:text-2xl font-light text-gray-600 tracking-wide max-w-2xl mx-auto px-2 hero-title-subtext">
-                <i data-lucide="leaf" class="w-6 h-6 text-tadelakt-ochre inline mr-1"></i> International Moroccan Tadelakt Artist
+            <p class="text-xl md:text-3xl font-bold text-gray-800 tracking-wide max-w-2xl mx-auto px-2">
+                Tadelakt Original <br> <span class="text-gradient-tadelakt font-normal text-lg md:text-2xl">Moroccan plaster מבית מג׳ייאן דיימונד</span>
+            </p>
+            <p class="text-md md:text-xl font-light text-gray-600 max-w-2xl mx-auto px-2 pt-2">
+                <i data-lucide="leaf" class="w-5 h-5 text-tadelakt-ochre inline mr-1"></i> אמן טדלקט מרוקאי ומומחה לחומרי גמר מינרליים
             </p>
             <div class="flex flex-col md:flex-row gap-4 justify-center pt-8">
                 <a href="#contact-form" class="bg-[#2d2d2d] text-white font-bold py-4 px-12 rounded-full hover:bg-tadelakt-ochre transition-all shadow-xl transform hover:-translate-y-1">יצירת קשר</a>
+                <a href="#plaster-types" class="bg-white/80 backdrop-blur-md text-[#2d2d2d] font-bold py-4 px-12 rounded-full hover:bg-white transition-all shadow-lg transform hover:-translate-y-1 border border-gray-200">סוגי הטיח שלנו</a>
             </div>
         </div>
-        <div class="absolute bottom-10 animate-bounce text-gray-400"><i data-lucide="chevron-down" class="w-10 h-10"></i></div>
+        <div class="absolute bottom-10 animate-bounce text-gray-400"><a href="#about"><i data-lucide="chevron-down" class="w-10 h-10"></i></a></div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-16 md:py-20 space-y-24 md:space-y-32">
         
-        <section class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="relative group mx-auto w-full max-w-md md:max-w-full order-2 md:order-1">
+        <!-- סוגי הטיח (מתוך קובץ 3) -->
+        <section id="plaster-types" class="space-y-12 scroll-mt-24">
+            <div class="text-center">
+                <div class="flex items-center gap-3 justify-center mb-4">
+                    <span class="w-12 h-1 bg-gradient-tadelakt rounded-full"></span>
+                    <span class="text-sm font-bold tracking-widest text-tadelakt-ochre uppercase">קולקציית החומרים</span>
+                    <span class="w-12 h-1 bg-gradient-tadelakt rounded-full"></span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold serif text-[#2d2d2d]">סוגי <span class="text-gradient-tadelakt">הטיח שלנו</span></h2>
+                <p class="text-gray-500 mt-4 text-lg">בייצור עצמי, מחומרים טבעיים וברמת גימור ללא פשרות.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- טיח מרוקאי -->
+                <div class="glass-card rounded-[2rem] p-6 border-t-4 border-tadelakt-ochre shadow-lg hover:shadow-xl transition-all">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">טדלקט מרוקאי</h3>
+                    <p class="text-gray-600 font-medium mb-4">חומר גמר מינרלי מסורתי ויוקרתי, המבוסס על סיד טבעי ייחודי שמקורו במרוקו.</p>
+                    
+                    <div class="expandable-content text-gray-600 text-sm leading-relaxed space-y-3" id="desc-1">
+                        <p>נעשה בו שימוש מאות שנים בארמונות, חמאמים ומבנים מסורתיים. זהו ציפוי ברמה הגבוהה ביותר, המשלב מלאכת יד עתיקה עם טכניקת יישום מדויקת — ליצירת משטח חלק, עמוק, אטום למים ובעל נוכחות יוקרתית יוצאת דופן.</p>
+                        <p class="font-bold text-tadelakt-ochre">מעולה במיוחד לחללים רטובים, מקלחונים, קירות דקורטיביים ומשטחי עיצוב יוקרתיים.</p>
+                        <ul class="list-disc list-inside space-y-1 mt-2">
+                            <li>100% מינרלי טבעי — ללא חומרים סינתטיים.</li>
+                            <li>אטימות טבעית למים לאחר תהליך ליטוש מסורתי.</li>
+                            <li>אנטיבקטריאלי ומונע עובש ופטריות.</li>
+                            <li>כל קיר הוא יצירה חד-פעמית בעבודת יד.</li>
+                        </ul>
+                        <p>טדלקט מרוקאי אינו רק ציפוי — זו אומנות חומרית עתיקה. מערכת גמר שלמה שמעניקה לקיר עומק, תנועה וחיים.</p>
+                    </div>
+
+                    <button onclick="toggleAccordion('desc-1', 'icon-1', this)" class="mt-4 flex items-center gap-2 text-tadelakt-ochre font-bold hover:text-gray-800 transition group w-full justify-between">
+                        <span class="btn-text">קרא עוד</span>
+                        <i data-lucide="chevron-down" id="icon-1" class="w-5 h-5 chevron-icon bg-orange-50 rounded-full p-1 group-hover:bg-gray-100"></i>
+                    </button>
+                </div>
+
+                <!-- טיח אסא -->
+                <div class="glass-card rounded-[2rem] p-6 border-t-4 border-gray-800 shadow-lg hover:shadow-xl transition-all relative overflow-hidden">
+                    <div class="absolute top-0 left-0 bg-gray-800 text-white text-xs px-3 py-1 rounded-br-xl font-bold z-10">פיתוח ייחודי שלנו</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 mt-2">טיח אסא</h3>
+                    <p class="text-gray-600 font-medium mb-4">הטדלקט הישראלי - פתרון מדהים למקלחונים ולחללים רטובים, בייצור עצמי.</p>
+                    
+                    <div class="expandable-content text-gray-600 text-sm leading-relaxed space-y-3" id="desc-2">
+                        <p>טיח ייחודי שפיתחתי לאחר שנים של מחקר, ניסיון ויצירה בשטח. בתהליך העבודה אני מדלג על שלבי האבן המסורתיים של הטדלקט, ומבצע במקום זאת הידוקים והחלקות מדויקות, לקבלת גימור חלק, אטום ומבריק ברמה גבוהה במיוחד.</p>
+                        <p>אני היחיד בארץ שעובד בשיטה זו עם סיד Hydrated טבעי בלבד, בשילוב אבן גיר, ללא תוספים סינתטיים.</p>
+                        <ul class="list-disc list-inside space-y-1 mt-2">
+                            <li>מותאם במיוחד למקלחונים וחללים רטובים.</li>
+                            <li>תחזוקה קלה, ניקוי במים וסבון בלבד.</li>
+                            <li>מפחית סדקים בזכות גמישות מינרלית.</li>
+                            <li>חידוש ברק אחת לשנה בעזרת שעוות דבורים טבעית.</li>
+                        </ul>
+                        <p>טיח אסא הוא שילוב בין מסורת עתיקה לטכנולוגיית יישום מדויקת, פתרון יוקרתי, טבעי ובריא יותר לבית.</p>
+                    </div>
+
+                    <button onclick="toggleAccordion('desc-2', 'icon-2', this)" class="mt-4 flex items-center gap-2 text-gray-800 font-bold hover:text-tadelakt-ochre transition group w-full justify-between">
+                        <span class="btn-text">קרא עוד</span>
+                        <i data-lucide="chevron-down" id="icon-2" class="w-5 h-5 chevron-icon bg-gray-100 rounded-full p-1 group-hover:bg-orange-50"></i>
+                    </button>
+                </div>
+
+                <!-- טיח אנה -->
+                <div class="glass-card rounded-[2rem] p-6 border-t-4 border-tadelakt-beige shadow-lg hover:shadow-xl transition-all">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">טיח אנה</h3>
+                    <p class="text-gray-600 font-medium mb-4">טיח ייחודי ובלעדי בארץ המבוסס על פורמולה מינרלית טבעית. מעולה לפנים ולחוץ.</p>
+                    
+                    <div class="expandable-content text-gray-600 text-sm leading-relaxed space-y-3" id="desc-3">
+                        <p>מדובר בחומר ברמה הגבוהה ביותר, המשלב בין מסורת חומרית עתיקה לבין טכנולוגיית ייצור מדויקת — ליצירת ציפוי איכותי, בריא ועמיד לאורך שנים. פרי ייצור עצמי מוקפד מסוג סיד Hydrated.</p>
+                        <ul class="list-disc list-inside space-y-1 mt-2">
+                            <li>100% טבעי ונושם — מאפשר לקירות לווסת לחות באופן טבעי.</li>
+                            <li>אנטיבקטריאלי באופן טבעי — ללא תוספים כימיים מזיקים.</li>
+                            <li>עמיד בפני סדקים וקילופים, משתבח ומשתמר עם הזמן.</li>
+                            <li>מספק שכבת הגנה מינרלית חזקה.</li>
+                        </ul>
+                        <p>טיח אנה אינו רק חומר — הוא מערכת ציפוי שלמה שמעניקה לקיר עומק, מרקם וחיים. פתרון אידיאלי למי שמחפש שילוב בין אסתטיקה גבוהה לעמידות מקצועית.</p>
+                    </div>
+
+                    <button onclick="toggleAccordion('desc-3', 'icon-3', this)" class="mt-4 flex items-center gap-2 text-tadelakt-ochre font-bold hover:text-gray-800 transition group w-full justify-between">
+                        <span class="btn-text">קרא עוד</span>
+                        <i data-lucide="chevron-down" id="icon-3" class="w-5 h-5 chevron-icon bg-orange-50 rounded-full p-1 group-hover:bg-gray-100"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- אודות והחיבור למסורת מרוקו ואיטליה (מתוך קבצים 1+2) -->
+        <section id="about" class="grid md:grid-cols-2 gap-12 items-start mt-16 pt-16 border-t border-gray-200">
+            <div class="space-y-6 text-right order-2 md:order-1">
+                <div class="flex items-center gap-3 justify-start">
+                    <span class="w-12 h-1 bg-gradient-tadelakt rounded-full"></span>
+                    <span class="text-sm font-bold tracking-widest text-tadelakt-ochre uppercase">על עולם הטדלקט</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold serif text-[#2d2d2d]">מסורת עתיקה פוגשת <span class="text-gradient-tadelakt">אדריכלות מודרנית</span></h2>
+                
+                <div class="space-y-4 pt-4">
+                    <!-- אקורדיון היסטוריה -->
+                    <div class="border border-gray-100 rounded-2xl bg-white p-4 shadow-sm">
+                        <button onclick="toggleAccordion('hist-1', 'icon-h1', this)" class="flex justify-between items-center w-full text-right font-bold text-lg text-gray-800 group">
+                            הקסם העל-זמני של מרקש
+                            <i data-lucide="chevron-down" id="icon-h1" class="w-5 h-5 chevron-icon text-tadelakt-ochre"></i>
+                        </button>
+                        <div class="expandable-content text-gray-600 mt-2 text-md leading-relaxed" id="hist-1">
+                            <p>נולד בארמונות ובחמאמים של מרקש, הטדלקט הוא אמנות עתיקה ההופכת כל משטח לאלגנטיות טהורה. הגימורים הרכים והמוארים מספרים סיפור של ידיים מיומנות ומסורת בת למעלה מ-500 שנה שחלפה דרך הברברים. חומר טבעי ובר-קיימא המביא לבתים של ימינו את היופי האותנטי של פעם.</p>
+                        </div>
+                    </div>
+
+                    <!-- אקורדיון פרס האדריכלות -->
+                    <div class="border border-gray-100 rounded-2xl bg-white p-4 shadow-sm">
+                        <button onclick="toggleAccordion('hist-2', 'icon-h2', this)" class="flex justify-between items-center w-full text-right font-bold text-lg text-gray-800 group">
+                            חזרה לחומר - זוכה פרס העיצוב 2025
+                            <i data-lucide="chevron-down" id="icon-h2" class="w-5 h-5 chevron-icon text-tadelakt-ochre"></i>
+                        </button>
+                        <div class="expandable-content text-gray-600 mt-2 text-md leading-relaxed" id="hist-2">
+                            <p>בעולם של אדריכלות היפר-טכנולוגית, המגמה הברורה כיום היא חזרה למגע היד ולטכניקות העתיקות. פרויקט Aziz Rest House, שזכה בפרס האדריכלות החדשנית (A' Design Award 2025), השתמש בטדלקט מרוקאי בצבע האוכרה ("האדום של מרקש") לא רק כאלמנט עיצובי, אלא ככלי אדריכלי לבידוד אקלימי, הגנה טבעית למבנה וקיימות. זוהי ההוכחה שהטדלקט הוא בחירה עכשווית ומנצחת לאדריכלים ומעצבים.</p>
+                        </div>
+                    </div>
+
+                    <!-- אקורדיון אומנות והכשרה -->
+                    <div class="border border-gray-100 rounded-2xl bg-white p-4 shadow-sm">
+                        <button onclick="toggleAccordion('hist-3', 'icon-h3', this)" class="flex justify-between items-center w-full text-right font-bold text-lg text-gray-800 group">
+                            האמן, החומר והמסורת האמיתית
+                            <i data-lucide="chevron-down" id="icon-h3" class="w-5 h-5 chevron-icon text-tadelakt-ochre"></i>
+                        </button>
+                        <div class="expandable-content text-gray-600 mt-2 text-md leading-relaxed" id="hist-3">
+                            <p>כדי שעבודה תיקרא "טדלקט מקורי", לא מספיק להשתמש בחומרי גלם טבעיים אלא חובה לכבד את שלבי העבודה המסורתיים. אנו שואבים ידע והשראה משורשי האומנות במרוקו וממומחים עולמיים לשימור הסיד. העבודה עם החומר מבקשת נוכחות: להרגיש את הלחות, את ההתנגדות, את הזמן. כל תנועה מדויקת, בעזרת חלוקי נחל, כף עץ ארז וסבון שמן זית, בונה את השכבות בשקט, בלי מילים, דרך הידיים.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative group mx-auto w-full max-w-md md:max-w-full order-1 md:order-2 h-full flex flex-col justify-center">
                 <div class="absolute -inset-4 bg-tadelakt-beige rounded-[2rem] -z-10 rotate-2"></div>
                 <div class="img-straight h-[400px] md:h-[500px]">
                     <img src="02.webp" alt="ניב דהן בעבודת טדלקט במבנה עתיק" loading="lazy">
                 </div>
             </div>
-            <div class="space-y-6 text-right order-1 md:order-2">
-                <div class="flex items-center gap-3 justify-end">
-                    <span class="w-12 h-1 bg-gradient-tadelakt rounded-full"></span>
-                    <span class="text-sm font-bold tracking-widest text-tadelakt-ochre uppercase">האמן והחומר</span>
-                </div>
-                <h2 class="text-4xl md:text-5xl font-bold serif text-[#2d2d2d]">חיבור ל<span class="text-gradient-tadelakt">עבר</span>, יצירה ל<span class="text-gradient-tadelakt">עתיד</span></h2>
-                <div class="text-gray-600 leading-relaxed space-y-4 text-lg font-normal">
-                    <p>יוצר וחוקר אומנויות וטכניקות קישוט עתיקות מבוססות סיד, ומתמחה בשחזור ושימור מבנים בטיח מרוקאי בעבודת יד. ניב דהן מביא עמו ידע רב וניסיון עשיר, תוך הקפדה על הפרטים הקטנים ביותר והבנה עמוקה של החומר.</p>
-                    <p>"יש משהו בטדלקט שמרפא דרך העשייה. לא כי הוא מטפל, אלא כי הוא מחזיר אותנו לידיים, לנשימה, לקצב. העבודה עם החומר מבקשת נוכחות: להרגיש את הלחות, את ההתנגדות, את הזמן. כל תנועה מדויקת, כל שכבה נבנית לאט, וככה גם בפנים — משהו מסתדר. ריפוי בעיסוק הוא לא רק תוצאה, הוא המפגש בין גוף, חומר ונפש. ובטדלקט, המפגש הזה קורה בשקט, בלי מילים, דרך הידיים. לפעמים, כדי לרפא, לא צריך לדבר. צריך לעשות."</p>
-                </div>
-            </div>
         </section>
 
+        <!-- פיגמנטים -->
         <section class="space-y-12">
             <div class="text-center">
                 <h3 class="text-3xl md:text-4xl font-bold serif mb-4 text-[#2d2d2d]">הקסם של <span class="text-gradient-tadelakt">הפיגמנטים הטבעיים</span></h3>
@@ -224,6 +334,7 @@
             </div>
         </section>
 
+        <!-- גלריה -->
         <section class="space-y-8">
             <h3 class="text-2xl font-bold text-center border-b-2 border-tadelakt-beige pb-4 w-fit mx-auto px-10 text-gray-400 uppercase tracking-widest">גלריית עבודות</h3>
             
@@ -239,7 +350,8 @@
             </div>
         </section>
 
-        <section id="contact-form" class="relative">
+        <!-- יצירת קשר -->
+        <section id="contact-form" class="relative scroll-mt-24">
             <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-full bg-tadelakt-beige blur-[100px] rounded-full -z-10"></div>
             <div class="glass-card p-6 md:p-14 rounded-[2rem] max-w-4xl mx-auto relative z-10 bg-white/80 overflow-hidden">
                 <div class="text-center mb-10">
@@ -259,7 +371,7 @@
                     </div>
                     <div class="space-y-2">
                         <label class="text-gray-600 text-sm mr-2 font-bold">נושא / סוג פרויקט</label>
-                        <input type="text" name="projectType" class="w-full input-light rounded-xl p-4" placeholder="שחזור, שימור, עיצוב חדש...">
+                        <input type="text" name="projectType" class="w-full input-light rounded-xl p-4" placeholder="שחזור, שימור, מקלחון, עיצוב פנים...">
                     </div>
                     <div class="space-y-2">
                         <label class="text-gray-600 text-sm mr-2 font-bold">הודעה</label>
@@ -275,7 +387,8 @@
 
     <footer class="bg-white py-12 border-t border-gray-100 mt-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-6 text-center">
-            <div class="text-4xl font-bold serif text-gradient-tadelakt">Niv Dahan</div>
+            <div class="text-3xl md:text-4xl font-bold serif text-gradient-tadelakt">Niv Dahan</div>
+            <div class="text-sm md:text-base text-gray-500 font-bold">Tadelakt Original | Moroccan Plaster מבית מג׳ייאן דיימונד</div>
             
             <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-2 w-full justify-center">
                 <div class="flex justify-center gap-8 footer-social-group">
@@ -289,10 +402,6 @@
                     </a>
                 </div>
                 <div class="flex justify-center gap-8 footer-social-group">
-                    <a href="https://www.threads.com/@niv_d_tadelakt/" target="_blank" class="group flex flex-col items-center gap-2">
-                        <div class="bg-gray-50 p-4 rounded-full group-hover:bg-gray-200 transition shadow-sm"><i data-lucide="at-sign" class="w-6 h-6"></i></div>
-                        <span class="text-xs text-gray-500">Threads</span>
-                    </a>
                     <a href="https://api.whatsapp.com/send/?phone=972535379988" target="_blank" class="group flex flex-col items-center gap-2">
                         <div class="bg-gray-50 p-4 rounded-full group-hover:bg-green-100 transition shadow-sm"><i data-lucide="message-circle" class="w-6 h-6"></i></div>
                         <span class="text-xs text-gray-500">וואטסאפ</span>
@@ -327,6 +436,23 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqbenjkSNnGq7hjh2GlYSazgkLd5HFj_kp79u7N1pwrR-choqD4GaNAt7G0lMoigKiaw/exec';
         let projectsData = [];
         let plyrInstances = [];
+
+        // פונקציית פתיחת/סגירת טקסט (אקורדיון)
+        function toggleAccordion(contentId, iconId, buttonEl) {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            const btnText = buttonEl.querySelector('.btn-text');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.classList.remove('rotate');
+                if(btnText) btnText.innerText = "קרא עוד";
+            } else {
+                content.classList.add('open');
+                icon.classList.add('rotate');
+                if(btnText) btnText.innerText = "סגור";
+            }
+        }
 
         function initGallery() {
             const container = document.getElementById('bottom-gallery');
@@ -398,7 +524,7 @@
         function initPlyr(selector) {
             const players = Plyr.setup(selector, {
                 autoplay: true,
-                muted: true, // חובה לניגון אוטומטי בדפדפנים
+                muted: true,
                 loop: { active: true },
                 controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
                 youtube: { 
